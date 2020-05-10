@@ -1,17 +1,29 @@
 package com.gestion.gestion.controller;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.gestion.gestion.entity.Us;
+import com.gestion.gestion.service.UsService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class UsController {
 
-    @GetMapping("/test")
-    public String test() {
+    private UsService usService;
 
-        return "ok";
+    public UsController(UsService usService) {
+        this.usService = usService;
+    }
+
+    @PostMapping("/us")
+    public Us creatUs(@RequestBody Us us){
+        return this.usService.create(us);
+    }
+
+    @GetMapping("/us")
+    public Page<Us> findAll(Pageable pageable) {
+        return  this.usService.findAll(pageable);
     }
 }
